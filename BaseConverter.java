@@ -10,18 +10,18 @@ public class BaseConverter{
         }
         else {
           // YOUR CODE GOES HERE
-          Long baseN;
-			    String str = args[0];
-			    str = str.replaceAll("\\[", "").replaceAll("\\]","-");
-			    String[] original = str.split("-");
-			    Long baseOrig = new Long(args[1]);
-		  	  if ( args.length != 3 ) {
-				    baseN = new Long(10);
-			    } else {
-				    baseN = new Long(args[2]);
-			    }
-		  	  Long number10 = new Long("16");
-		  	  System.out.println( baseTenToN( toBaseTen(original,baseOrig), baseN) );
+        	Long baseN;
+	  	String str = args[0];
+		str = str.replaceAll("\\[", "").replaceAll("\\]","-");
+		String[] original = str.split("-");
+		Long baseOrig = new Long(args[1]);
+		if ( args.length != 3 ) {
+			baseN = new Long(10);
+		} else {
+			baseN = new Long(args[2]);
+		}
+		Long number10 = new Long("16");
+		System.out.println( baseTenToN( toBaseTen(original,baseOrig), baseN) );
         }
   }
 
@@ -57,45 +57,44 @@ public class BaseConverter{
 
 	public static boolean validArgs( String[] args ) {
         // YOUR CODE GOES HERE
-        if ( args.length < 2 ) {			//not enough arguments
-        	return false;
-        }
-       	if ( !isNumeric(args[1]) ){		//original base isnt numeric
-       		return false;
-       	}
-       	if ( args.length == 3 && !isNumeric(args[2]) ) {		//second base isnt numeric
-       		return false;
-       	}
-       	Long baseOrig = new Long(args[1]);
-       	if (args.length == 3) {
-       		Long baseN = new Long(args[2]);
-       		if ( baseOrig - 2 < 0 ) {		//first base < 2
+        	if ( args.length < 2 ) {			//not enough arguments
+        		return false;
+        	}
+       		if ( !isNumeric(args[1]) ){		//original base isnt numeric
        			return false;
        		}
-       		if ( baseN - 2 < 0) {			//second base < 2
+       		if ( args.length == 3 && !isNumeric(args[2]) ) {		//second base isnt numeric
        			return false;
        		}
-       	}
-		    String str = args[0];
-		    str = str.replaceAll("\\[", "").replaceAll("\\]","-");
-		    String[] original = str.split("-");
-		    for ( int i = 0; i < original.length; i++ ) {			//non-numeric values in [here]
-			    if ( !isNumeric(original[i]) ){
-				  return false;
-			    }
-		    }
-        return true;
-  }
+       		Long baseOrig = new Long(args[1]);
+       		if (args.length == 3) {
+       			Long baseN = new Long(args[2]);
+       			if ( baseOrig - 2 < 0 ) {		//first base < 2
+       				return false;
+       			}
+       			if ( baseN - 2 < 0) {			//second base < 2
+       				return false;
+       			}
+       		}
+		String str = args[0];
+		str = str.replaceAll("\\[", "").replaceAll("\\]","-");
+		String[] original = str.split("-");
+		for ( int i = 0; i < original.length; i++ ) {			//non-numeric values in [here]
+			if ( !isNumeric(original[i]) ){
+				return false;
+			}
+		}
+        	return true;
+  	}
 
   public static boolean isNumeric( String str )  {  
   		try  {  
-    		double d = Double.parseDouble(str);  
+    			double d = Double.parseDouble(str);  
   		}  
   		catch(NumberFormatException nfe)  {  
-    		return false;  
+    			return false;  
   		}  
   		return true;  
 	}
-	
 	
 }
