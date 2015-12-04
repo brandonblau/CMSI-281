@@ -37,8 +37,8 @@ public class BinaryTree implements Iterable {
 		}
 		Node p = this.cursor;
 		Node q = ((BinaryTree)obj).cursor;
-		Stack pstack = new Stack();
-		Stack qstack = new Stack();
+		Stack<Node> pstack = new Stack<Node>();
+		Stack<Node> qstack = new Stack<Node>();
 		for (int i = 0; i < this.size(); i++) {
 			if ( p.getLSON() != null && p.getRSON() != null ) {
 				if ( q.getLSON() == null || q.getRSON() == null ) {
@@ -190,7 +190,7 @@ public class BinaryTree implements Iterable {
 
 	private class BTiterator implements Iterator {
 		private Node p;
-		private Stack s;
+		private Stack<Node> s;
 		private Node q;
 
 		public BTiterator(Node root) {
@@ -232,7 +232,7 @@ public class BinaryTree implements Iterable {
 
 	private class BTinOrder implements Iterator {
 		private Node p;
-		private Stack s;
+		private Stack<Node> s;
 		private Node q;
 
 		public BTinOrder(Node root) {
@@ -246,21 +246,15 @@ public class BinaryTree implements Iterable {
 
 		public Object next() {
 			//returns the next item in INORDER and updates p to point to the next next item;
-			q = p;
-
-			if (p.getLSON() != null) {
-				s.push(p);
-				p = p.getLSON();
-			} else if ( p.getRSON() != null ) {
-				p = p.getRSON();
-			} else {
-				if ( s.size() > 0 ) {
-					p = (Node) s.pop();
+			while (! s.empty() || p!= null) {
+				if ( p!=null ) {
+					s.push(p);
+					p=p.getLSON();
 				} else {
-					p = null;
+					q=s.pop();
+					p=q.getRSON();
 				}
 			}
-
 			return q.getData();
 		}
 
