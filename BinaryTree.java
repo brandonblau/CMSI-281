@@ -7,6 +7,56 @@ public class BinaryTree implements Iterable {
 	private Node root;
 	private Node cursor;
 
+	public static void main( String[] args ) {
+		BinaryTree bt = new BinaryTree( "A" );
+		bt.attachLeftSonAtCursor("B");
+		bt.attachRightSonAtCursor("C");
+		bt.putCursorAtLeftSon();
+		bt.attachLeftSonAtCursor("D");
+		bt.attachRightSonAtCursor("E");
+		bt.putCursorAtRoot();
+		bt.putCursorAtRightSon();
+		bt.attachLeftSonAtCursor("F");
+		bt.attachRightSonAtCursor("H");
+		bt.putCursorAtLeftSon();
+		bt.attachLeftSonAtCursor("G");
+		bt.putCursorAtRoot();
+		System.out.println(bt.toString());
+		System.out.println(bt.size());
+		System.out.println("hash: "+bt.hashCode());
+		System.out.println("contains: "+bt.contains("A") );
+
+		BinaryTree bt2 = new BinaryTree( "A" );
+		bt2.attachLeftSonAtCursor("B");
+		bt2.attachRightSonAtCursor("C");
+		bt2.putCursorAtLeftSon();
+		bt2.attachLeftSonAtCursor("D");
+		bt2.attachRightSonAtCursor("E");
+		bt2.putCursorAtRoot();
+		bt2.putCursorAtRightSon();
+		bt2.attachLeftSonAtCursor("F");
+		bt2.attachRightSonAtCursor("H");
+		bt2.putCursorAtLeftSon();
+		bt2.attachLeftSonAtCursor("I");
+		bt2.putCursorAtRoot();
+		System.out.println("similar: "+bt.similar(bt2));
+		System.out.println("equals test: "+ !bt.equals(bt2));
+
+		bt.putCursorAtRoot();
+		bt.putCursorAtRightSon();
+		bt.pruneFromCursor();
+		System.out.println("Prune test(find a restroom): "+bt.toString().equals("[A][B][D][E]"));
+	}
+
+	public String toString() {
+		//returns a string rep of the tree in PREORDER
+		String str = "";
+		for ( Object p : this ) {
+			str = str +"[" + p.toString() + "]"; 
+		}
+		return str;
+	}
+
 	public BinaryTree() {
 		//constructs an empty tree
 		this.cursor = this.root;
@@ -39,7 +89,7 @@ public class BinaryTree implements Iterable {
 		Node q = ((BinaryTree)obj).cursor;
 		Stack<Node> pstack = new Stack<Node>();
 		Stack<Node> qstack = new Stack<Node>();
-		for (int i = 0; i < this.size(); i++) {
+		for (int i = 1; i < this.size(); i++) {
 			if ( p.getLSON() != null && p.getRSON() != null ) {
 				if ( q.getLSON() == null || q.getRSON() == null ) {
 					return false;
@@ -92,7 +142,6 @@ public class BinaryTree implements Iterable {
 	}
 
 	public int size() {
-		//use for each loop used adding
 		int i = 0;
 		for (Object p : this ) {
 			i++;
@@ -103,7 +152,7 @@ public class BinaryTree implements Iterable {
 	public int hashCode() {
 		int hash = 1;
 		for ( Object p : this ) {
-			hash = (hash+151) * (int)p + 11 - 811;
+				hash = (hash+151) * p.hashCode() + 11 - 811;
 		}
 		return hash;
 	}
@@ -160,6 +209,7 @@ public class BinaryTree implements Iterable {
 			return false;
 		}
 		cursor.setLSON(new Node(obj) );
+		cursor.getLSON().setFather(cursor);
 		return true;
 	}
 
@@ -169,6 +219,7 @@ public class BinaryTree implements Iterable {
 			return false;
 		}
 		cursor.setRSON(new Node(obj) );
+		cursor.getRSON().setFather(cursor);
 		return true;
 	}	
 
@@ -196,6 +247,7 @@ public class BinaryTree implements Iterable {
 		public BTiterator(Node root) {
 			//constructor.  PREORDER, so root is p first.
 			this.p = root;
+			s = new Stack<Node>();
 		}
 
 		public Object next() {
@@ -209,9 +261,10 @@ public class BinaryTree implements Iterable {
 			} else if ( p.getLSON() != null && p.getRSON() == null ) {
 				p = p.getLSON();
 			} else {
-				//p is the terminal node. 
+				//p is the terminal node.
 				if ( s.size() >= 1 ) {
-					p = (BinaryTree.Node)s.pop();
+
+					p = s.pop();
 				} else {
 					p = null;
 				}
@@ -237,29 +290,29 @@ public class BinaryTree implements Iterable {
 
 		public BTinOrder(Node root) {
 			//constructor.  INORDER, so push root and find the first element.
+			s = new Stack<Node>();
 			this.p = root;
-			while (p.getLSON() != null) {
-				s.push(p);
-				p = p.getLSON();
-			}
+			q = null;
 		}
 
 		public Object next() {
 			//returns the next item in INORDER and updates p to point to the next next item;
-			while (! s.empty() || p!= null) {
+			q = null;
+			while ( (!s.empty() || p!= null) && (q == null) ) {
+				
 				if ( p!=null ) {
 					s.push(p);
-					p=p.getLSON();
+					this.p=p.getLSON();
 				} else {
 					q=s.pop();
-					p=q.getRSON();
+					this.p=q.getRSON();
 				}
 			}
 			return q.getData();
 		}
 
 		public boolean hasNext() {
-			return !( p == null );
+			return !( p == null && s.isEmpty() );
 		}
 
 		public void remove() {
@@ -317,11 +370,4 @@ public class BinaryTree implements Iterable {
 			this.father = dad;
 		}
 	}
-
-
-//ask about checking structure
-//iterators: after .remove(), where does the pointer point? (changes remove...)--not testing, just do something
-//ask about for each loop (in .contains())
-//creativity with hashcode (how)
-//ask about ? switch statements--check
 }
