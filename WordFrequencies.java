@@ -31,10 +31,9 @@ public class WordFrequencies {
 		String s = stdIn.readLine();
 
 		while ( s!= null ) {
-			//String[] words = s.split("\\W+");
 			String[] words = s.split("[^a-zA-Z0-9']+");
 			for (String str : words ){
-				str = str.toUpperCase();
+				str = str.toUpperCase().replaceAll("'", "");
 				if ( hashmap.containsKey(str) ) {
 					int count = hashmap.get(str);
 					count++;
@@ -65,7 +64,7 @@ public class WordFrequencies {
 		while ( s!= null ) {
 			String[] words = s.split("[^a-zA-Z0-9']+");
 			for (String str : words ){
-				str = str.toUpperCase();
+				str = str.toUpperCase().replaceAll("'", "");
 				if ( hashmap.containsKey(str) ) {
 					int count = hashmap.get(str);
 					count++;
@@ -92,9 +91,9 @@ public class WordFrequencies {
 		String s = stdIn.readLine();
 
 		while ( s!= null ) {
-			//String[] words = s.split("\\W+");
 			String[] words = s.split("[^a-zA-Z0-9']+");
 			for (String str : words ){
+				str = str.replaceAll("'", "");
 				if ( hashmap.containsKey(str) ) {
 					int count = hashmap.get(str);
 					count++;
@@ -123,9 +122,9 @@ public class WordFrequencies {
 		String s = stdIn.readLine();
 
 		while ( s!= null ) {
-			//String[] words = s.split("\\W+");
 			String[] words = s.split("[^a-zA-Z0-9']+");
 			for (String str : words ){
+				str = str.replaceAll("'", "");
 				if ( hashmap.containsKey(str) ) {
 					int count = hashmap.get(str);
 					count++;
@@ -147,5 +146,3 @@ public class WordFrequencies {
 	}
 
 }
-
-//more infor here: http://examples.javacodegeeks.com/core-java/util/hashmap/java-hashmap-example/
