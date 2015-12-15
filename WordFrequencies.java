@@ -50,7 +50,7 @@ public class WordFrequencies {
 		String[] allWords = hashmap.keySet().toArray(new String[hashmap.keySet().size()]);
 		Arrays.sort(allWords);
 		for ( Object str : allWords ) {
-			System.out.println(str + " - " + hashmap.get(str));
+			System.out.println(str + " " + hashmap.get(str));
 		}
 	}
 
@@ -110,7 +110,7 @@ public class WordFrequencies {
 		String[] allWords = hashmap.keySet().toArray(new String[hashmap.keySet().size()]);
 		Arrays.sort(allWords);
 		for ( Object str : allWords ) {
-			System.out.println(str + " - " + hashmap.get(str));
+			System.out.println(str + " " + hashmap.get(str));
 		}
 	}
 
