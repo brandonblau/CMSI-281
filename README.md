@@ -13,3 +13,6 @@ LinkedDeque: 31/35
 
 Binary Tree: 32.5/45
  * Late one day
+
+WordFrequencies: 28/35
+* Off counts for King James Bible
