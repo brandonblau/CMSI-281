@@ -11,4 +11,5 @@ LinkedDeque: 31/35
   * Missed some edge cases.
   * Something to note (you didn't get docked points for this): you don't need the comments since your code would be self-explanatory. The rule is if you have well-written, readable code, then comments aren't necessary.
 
-Binary Tree: 37/45
+Binary Tree: 32.5/45
+ * Late one day
